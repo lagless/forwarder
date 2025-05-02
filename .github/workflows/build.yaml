@@ -26,13 +26,12 @@ jobs:
       - name: Build release binary
         run: cargo build --release --package forwarder-cli --target x86_64-unknown-linux-musl
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: wg-forwarder
-          path: target/x86_64-unknown-linux-musl/release/forwarder-cli
+      - name: Copy binary to dist
+        run: |
+          mkdir dist
+          cp target/x86_64-unknown-linux-musl/release/forwarder-cli dist/wg-forwarder
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: wg-forwarder
+          files: dist/wg-forwarder
