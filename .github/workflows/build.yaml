@@ -30,3 +30,8 @@ jobs:
         with:
           name: wg-forwarder
           path: target/x86_64-unknown-linux-musl/release/forwarder-cli
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: wg-forwarder
