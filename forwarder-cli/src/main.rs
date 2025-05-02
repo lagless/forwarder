@@ -1,6 +1,6 @@
 use anyhow::Context;
 use clap::Parser;
-use log::{info, LevelFilter};
+use log::{LevelFilter};
 use simple_logger::SimpleLogger;
 use std::{env, str::FromStr};
 
@@ -36,4 +36,3 @@ fn setup_logger() -> anyhow::Result<()> {
     SimpleLogger::new().with_level(log_level).init()?;
     Ok(())
 }
-
