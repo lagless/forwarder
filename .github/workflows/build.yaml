@@ -1,8 +1,9 @@
 name: Build wg-forwarder binary
 
 on:
+  workflow_dispatch:
   push:
-    branches:
+    tags:
       - '*'
 
 jobs:
