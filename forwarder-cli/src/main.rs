@@ -24,7 +24,6 @@ pub struct Args {
 fn main() -> anyhow::Result<()> {
     let cli = Args::parse();
     setup_logger().with_context(|| "couldn't setup logger")?;
-    log_version();
     forwarder::run(cli.listen_uri, cli.remote_uri, cli.passphrase)?;
     Ok(())
 }
@@ -38,10 +37,3 @@ fn setup_logger() -> anyhow::Result<()> {
     Ok(())
 }
 
-fn log_version() {
-    info!(
-        "latest commit: ({}, {})",
-        env!("VERGEN_GIT_SHA"),
-        env!("VERGEN_GIT_COMMIT_MESSAGE"),
-    );
-}
