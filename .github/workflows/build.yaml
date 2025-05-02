@@ -1,0 +1,34 @@
+name: Build forwarder binary
+
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Rust
+        uses: actions/setup-rust@v1
+        with:
+          rust-version: 1.79
+
+      - name: Add musl target
+        run: rustup target add x86_64-unknown-linux-musl
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y musl-tools
+
+      - name: Build release binary
+        run: cargo build --release --package forwarder-cli --target x86_64-unknown-linux-musl
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: wg-forwarder
+          path: target/x86_64-unknown-linux-musl/release/forwarder-cli
