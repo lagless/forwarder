@@ -24,7 +24,6 @@ jobs:
         run: |
           mkdir -p dist
           cp target/x86_64-unknown-linux-musl/release/forwarder-cli dist/wg-forwarder-amd64
-          cp target/aarch64-unknown-linux-musl/release/forwarder-cli dist/wg-forwarder-arm64
           chmod +x dist/*
 
       - name: Create GitHub Release
