@@ -18,9 +18,10 @@ jobs:
 
       - name: Build binaries
         run: |
-          apk add --no-cache bash curl gcc musl-dev rust cargo
+          apk add --no-cache bash curl gcc musl-dev cargo openssl-dev libgcc libstdc++ git
+          curl https://sh.rustup.rs -sSf | sh -s -- -y
+          source $HOME/.cargo/env
           cargo install cross
-          export PATH="$HOME/.cargo/bin:$PATH"
           cross build --release --target x86_64-unknown-linux-musl --package forwarder-cli
           cross build --release --target aarch64-unknown-linux-musl --package forwarder-cli
           mkdir -p dist
