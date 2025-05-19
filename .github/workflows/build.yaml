@@ -9,21 +9,20 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image: alpine:latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Install cross
+        run: cargo install cross
+
       - name: Build binaries
         run: |
-          apk add --no-cache bash curl gcc musl-dev cargo openssl-dev libgcc libstdc++ git
-          curl https://sh.rustup.rs -sSf | sh -s -- -y
-          source $HOME/.cargo/env
-          cargo install cross
+          cross build --release --target x86_64-unknown-linux-musl --package forwarder-cli
           cross build --release --target aarch64-unknown-linux-musl --package forwarder-cli
           mkdir -p dist
+          cp target/x86_64-unknown-linux-musl/release/forwarder-cli dist/wg-forwarder-amd64
           cp target/aarch64-unknown-linux-musl/release/forwarder-cli dist/wg-forwarder-arm64
           chmod +x dist/*
 
@@ -31,4 +30,5 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
+            dist/wg-forwarder-amd64
             dist/wg-forwarder-arm64
