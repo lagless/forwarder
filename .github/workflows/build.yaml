@@ -5,10 +5,10 @@ on:
   push:
     tags:
       - '*'
+
 jobs:
   build:
     runs-on: ubuntu-latest
-
     container:
       image: alpine:latest
 
@@ -16,27 +16,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install dependencies inside Alpine
+      - name: Build binaries
         run: |
           apk add --no-cache bash curl gcc musl-dev rust cargo
-
-      - name: Install cross
-        run: cargo install cross
-
-      - name: Build for x86_64
-        run: cross build --release --target x86_64-unknown-linux-musl --package forwarder-cli
-
-      - name: Build for aarch64
-        run: cross build --release --target aarch64-unknown-linux-musl --package forwarder-cli
-
-      - name: Prepare binaries
-        run: |
+          cargo install cross
+          cross build --release --target x86_64-unknown-linux-musl --package forwarder-cli
+          cross build --release --target aarch64-unknown-linux-musl --package forwarder-cli
           mkdir -p dist
           cp target/x86_64-unknown-linux-musl/release/forwarder-cli dist/wg-forwarder-amd64
           cp target/aarch64-unknown-linux-musl/release/forwarder-cli dist/wg-forwarder-arm64
           chmod +x dist/*
 
-      - name: Create GitHub Release
+      - name: Release binaries
         uses: softprops/action-gh-release@v1
         with:
           files: |
