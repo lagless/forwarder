@@ -29,14 +29,14 @@ jobs:
       - name: Prepare binary
         run: |
           mkdir -p dist
-          cp target/x86_64-unknown-linux-musl/release/forwarder-cli dist/wg-forwarder-amd64
-          chmod +x dist/wg-forwarder-amd64
+          cp target/aarch64-unknown-linux-musl/release/forwarder-cli dist/wg-forwarder-arm64
+          chmod +x dist/wg-forwarder-arm64
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: wg-forwarder-amd64
-          path: dist/wg-forwarder-amd64
+          name: wg-forwarder-arm64
+          path: dist/wg-forwarder-arm64
 
   amd64:
     runs-on: ubuntu-24.04
