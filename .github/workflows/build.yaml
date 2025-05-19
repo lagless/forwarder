@@ -22,10 +22,10 @@ jobs:
           curl https://sh.rustup.rs -sSf | sh -s -- -y
           source $HOME/.cargo/env
           cargo install cross
-          cross build --release --target x86_64-unknown-linux-musl --package forwarder-cli
+#          cross build --release --target x86_64-unknown-linux-musl --package forwarder-cli
           cross build --release --target aarch64-unknown-linux-musl --package forwarder-cli
           mkdir -p dist
-          cp target/x86_64-unknown-linux-musl/release/forwarder-cli dist/wg-forwarder-amd64
+#          cp target/x86_64-unknown-linux-musl/release/forwarder-cli dist/wg-forwarder-amd64
           cp target/aarch64-unknown-linux-musl/release/forwarder-cli dist/wg-forwarder-arm64
           chmod +x dist/*
 
