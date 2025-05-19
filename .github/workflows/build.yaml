@@ -20,6 +20,7 @@ jobs:
         run: |
           apk add --no-cache bash curl gcc musl-dev rust cargo
           cargo install cross
+          export PATH="$HOME/.cargo/bin:$PATH"
           cross build --release --target x86_64-unknown-linux-musl --package forwarder-cli
           cross build --release --target aarch64-unknown-linux-musl --package forwarder-cli
           mkdir -p dist
